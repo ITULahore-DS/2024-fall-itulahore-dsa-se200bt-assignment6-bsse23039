@@ -44,6 +44,7 @@ class Queue{
 private:
     //members
     Node* top;
+    Node* bottom;
     int count;
 public:
     // functions

@@ -85,6 +85,7 @@ void Stack::printStack() {
 // queue class implementation
 Queue::Queue() {
     top= nullptr;
+    bottom= nullptr;
     count=0;
 }
 
@@ -100,29 +101,29 @@ Queue::~Queue() {
 bool Queue::isEmpty() {return count==0;}
 
 void Queue::enqueue(int data) {
-    Node* Node1 = new Node; //new node to enqueue at the top of the queue
+    Node* Node1 = new Node;
     Node1->setData(data);
     if (isEmpty()) {
-        top = Node1;
+        top = bottom = Node1;
     } else {
-        Node* current = top;
-        while (current->getNext() != nullptr) {
-            current = current->getNext();
-        }
-        current->setNext(Node1);
+        bottom->setNext(Node1);
+        bottom = Node1;
     }
     count++;
 }
 
 void Queue::dequeue() {
     if (isEmpty()) {
-        cout<<"Queue underflow"<<endl;
-        return;
+        cout<<"Queue is empty."<<endl;
     }
-    Node* Node1 = top; //node to delete
+    Node* temp = top;
     top = top->getNext();
-    delete Node1;
+    delete temp;
     count--;
+
+    if (isEmpty()) {
+        bottom = nullptr; // Reset bottom(rear) when queue is empty
+    }
 }
 
 int Queue::size() {return count;}
